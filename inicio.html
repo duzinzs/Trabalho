@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cartoes</title>
+    <link rel="stylesheet" href="./style.css">
+
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Raleway");
+
+        /* Seu CSS existente */
+        /* Corpo começa invisível (para o fade in) */
+        body {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            margin: 0;
+            background: #111;
+            /* fundo escuro para combinar com loading */
+            overflow-x: hidden;
+        }
+
+        /* Quando carregou, adicionamos essa classe para mostrar */
+        body.page-loaded {
+            opacity: 1;
+        }
+
+        /* Quando vai sair da página, adicionamos essa classe para fazer fade out */
+        body.page-exit {
+            opacity: 0;
+        }
+
+        /* Inicial: opacidade total */
+        body.fade-out {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Quando a classe for adicionada, faz o fade out */
+        body.fade-out.fade {
+            opacity: 0;
+        }
+
+        /* Seu CSS da flex-container e demais já existentes */
+
+        .flex-container {
+            position: absolute;
+            height: 100vh;
+            width: 100%;
+            display: -webkit-flex;
+            /* Safari */
+            display: flex;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            /* bloqueia interação até carregar */
+            transition: opacity 0.6s ease;
+        }
+
+        .flex-container.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Loading 3D EK styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #111;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: #eee;
+        }
+
+        .scene {
+            width: 120px;
+            height: 120px;
+            perspective: 600px;
+            margin-bottom: 20px;
+        }
+
+        .cube {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 5s linear infinite;
+        }
+
+        .face {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            font-size: 64px;
+            font-weight: 900;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.8);
+        }
+
+        .face.front {
+            transform: translateZ(60px);
+        }
+
+        .face.back {
+            transform: rotateY(180deg) translateZ(60px);
+        }
+
+        .face.right {
+            transform: rotateY(90deg) translateZ(60px);
+        }
+
+        .face.left {
+            transform: rotateY(-90deg) translateZ(60px);
+        }
+
+        .face.top {
+            transform: rotateX(90deg) translateZ(60px);
+        }
+
+        .face.bottom {
+            transform: rotateX(-90deg) translateZ(60px);
+        }
+
+        .face.front::before {
+            content: "E";
+        }
+
+        .face.back::before {
+            content: "D";
+        }
+
+        .face.right::before {
+            content: "U";
+        }
+
+        .face.left::before {
+            content: "A";
+        }
+
+        .face.top::before {
+            content: "R";
+        }
+
+        .face.bottom::before {
+            content: "D";
+        }
+
+
+        @keyframes rotateCube {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            letter-spacing: 0.15em;
+            color: #3498db;
+            text-shadow: 0 0 10px #3498db;
+            animation: pulse 2s infinite ease-in-out;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Seu CSS flex-slide e demais continuam aqui, igual ao que você mandou */
+        /* Vou colocar só o básico para não perder */
+
+        .flex-title {
+            color: #f1f1f1;
+            position: relative;
+            font-size: 6vw;
+            margin: auto;
+            text-align: center;
+            transform: rotate(90deg);
+            top: 15%;
+            transition: all 500ms ease;
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex-title {
+                transform: rotate(0deg) !important;
+            }
+        }
+
+        /* restante do seu CSS original... */
+    </style>
+
+</head>
+
+<body class="fade-out">
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="scene">
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+        </div>
+        <div class="loading-text">Eduardo K.</div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="flex-container" id="mainContent">
+        <div class="flex-slide home">
+            <div class="flex-title flex-title-home">Projeto</div>
+            <div class="flex-about flex-about-home">
+                <a href="projeto.html" style="color: inherit; text-decoration: none;">Clique para entender sobre como o
+                    projeto funciona</a>
+            </div>
+
+        </div>
+        <div class="flex-slide about">
+            <div class="flex-title">100 Dias</div>
+            <div class="flex-about">
+                <p>
+                    <a href="Redações.html" style="color: inherit; text-decoration: none;">
+                        Clique para ter acesso a todas as redações durante os 100 dias de redação parana
+                    </a>
+                </p>
+            </div>
+
+        </div>
+        <div class="flex-slide work">
+            <div class="flex-title">Lideres</div>
+            <div class="flex-about">
+                <p>Professores responsaveis pelo projeto:</p>
+                <ul>
+                    <li>Rafael Biano</li>
+                    <li>Simone</li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="flex-slide contact">
+            <div class="flex-title">Aluno</div>
+            <div class="flex-about">
+                <p>Eduardo K. -
+                    3° F
+                </p>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/769286/jquery.waitforimages.min.js'></script>
+    <script src="./script.js"></script>
+
+    <script>
+        // Controla o hover do flex-slide (seu script original)
+        $(".flex-slide").each(function () {
+            $(this).hover(function () {
+                $(this).find('.flex-title').css({
+                    transform: 'rotate(0deg)',
+                    top: '10%'
+                });
+                $(this).find('.flex-about').css({
+                    opacity: '1'
+                });
+            }, function () {
+                $(this).find('.flex-title').css({
+                    transform: 'rotate(90deg)',
+                    top: '15%'
+                });
+                $(this).find('.flex-about').css({
+                    opacity: '0'
+                });
+            })
+        });
+    </script>
+
+    <script>
+        // Fade out ao clicar no link da página "Redações.html"
+        document.addEventListener('DOMContentLoaded', () => {
+            const link = document.querySelector('.flex-slide.about a[href="Redações.html"]');
+
+            link.addEventListener('click', function (event) {
+                event.preventDefault(); // previne o redirecionamento imediato
+
+                document.body.classList.add('fade');
+
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 500);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const backButton = document.getElementById('back-button');
+
+            backButton.addEventListener('click', function (event) {
+                event.preventDefault(); // impede o redirecionamento imediato
+
+                document.body.classList.add('fade');
+
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 500); // tempo do fade
+            });
+        });
+    </script>
+
+    <script>
+        // Fade in ao carregar a página e controle de links internos com fade out
+        document.addEventListener('DOMContentLoaded', () => {
+            requestAnimationFrame(() => {
+                document.body.classList.add('page-loaded');
+            });
+
+            const links = document.querySelectorAll('a[href^="' + window.location.origin + '"], a[href^="/"], a[href^="./"], a[href^="../"]');
+
+            links.forEach(link => {
+                if (link.target === '_blank' || link.href.indexOf('#') > -1) return;
+
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    document.body.classList.remove('page-loaded');
+                    document.body.classList.add('page-exit');
+
+                    setTimeout(() => {
+                        window.location.href = link.href;
+                    }, 600);
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // Simula loading e depois mostra conteúdo
+        window.addEventListener('load', () => {
+            // 3 segundos para mostrar o loading (pode ajustar)
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainContent = document.getElementById('mainContent');
+
+                // Esconde loading
+                loadingScreen.style.display = 'none';
+
+                // Mostra conteúdo principal com fade
+                mainContent.classList.add('visible');
+            }, 3000);
+        });
+    </script>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Raleway");
+
+        /* Corpo começa invisível (para o fade in) */
+        body {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        /* Quando carregou, adicionamos essa classe para mostrar */
+        body.page-loaded {
+            opacity: 1;
+        }
+
+        /* Quando vai sair da página, adicionamos essa classe para fazer fade out */
+        body.page-exit {
+            opacity: 0;
+        }
+
+        /* Inicial: opacidade total */
+        body.fade-out {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Quando a classe for adicionada, faz o fade out */
+        body.fade-out.fade {
+            opacity: 0;
+        }
+
+
+        .flex-container {
+            position: absolute;
+            height: 100vh;
+            width: 100%;
+            display: -webkit-flex;
+            /* Safari */
+            display: flex;
+            overflow: hidden;
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex-container {
+                flex-direction: column;
+            }
+        }
+
+        #back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10001;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        #back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .flex-title {
+            color: #f1f1f1;
+            position: relative;
+            font-size: 6vw;
+            margin: auto;
+            text-align: center;
+            transform: rotate(90deg);
+            top: 15%;
+            -webkit-transition: all 500ms ease;
+            -moz-transition: all 500ms ease;
+            -ms-transition: all 500ms ease;
+            -o-transition: all 500ms ease;
+            transition: all 500ms ease;
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex-title {
+                transform: rotate(0deg) !important;
+            }
+        }
+
+        .flex-about {
+            opacity: 0;
+            color: #f1f1f1;
+            position: relative;
+            width: 70%;
+            font-size: 2vw;
+            padding: 5%;
+            top: 20%;
+            border: 2px solid #f1f1f1;
+            border-radius: 10px;
+            line-height: 1.3;
+            margin: auto;
+            text-align: left;
+            transform: rotate(0deg);
+            -webkit-transition: all 500ms ease;
+            -moz-transition: all 500ms ease;
+            -ms-transition: all 500ms ease;
+            -o-transition: all 500ms ease;
+            transition: all 500ms ease;
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex-about {
+                padding: 0%;
+                border: 0px solid #f1f1f1;
+            }
+        }
+
+        .flex-slide {
+            -webkit-flex: 1;
+            /* Safari 6.1+ */
+            -ms-flex: 1;
+            /* IE 10 */
+            flex: 1;
+            cursor: pointer;
+            -webkit-transition: all 500ms ease;
+            -moz-transition: all 500ms ease;
+            -ms-transition: all 500ms ease;
+            -o-transition: all 500ms ease;
+            transition: all 500ms ease;
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex-slide {
+                overflow: auto;
+                overflow-x: hidden;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex-slide p {
+                font-size: 2em;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .flex-slide ul li {
+                font-size: 2em;
+            }
+        }
+
+        .flex-slide:hover {
+            -webkit-flex-grow: 3;
+            flex-grow: 3;
+        }
+
+        .home {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(a.jpg);
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        @media screen and (min-width: 768px) {
+            .home {
+                animation: aboutFlexSlide 3s 1;
+                animation-delay: 0s;
+            }
+        }
+
+        @keyframes aboutFlexSlide {
+            0% {
+                -webkit-flex-grow: 1;
+                flex-grow: 1;
+            }
+
+            50% {
+                -webkit-flex-grow: 3;
+                flex-grow: 3;
+            }
+
+            100% {
+                -webkit-flex-grow: 1;
+                flex-grow: 1;
+            }
+        }
+
+        @media screen and (min-width: 768px) {
+            .flex-title-home {
+                transform: rotate(90deg);
+                top: 15%;
+                animation: aboutFlexSlide 3s 1;
+                animation-delay: 0s;
+            }
+        }
+
+        @keyframes zoomOutAndFade {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .flex-slide.animate-out {
+            animation: zoomOutAndFade 0.6s ease forwards;
+            z-index: 10000;
+        }
+
+        @keyframes homeFlextitle {
+            0% {
+                transform: rotate(90deg);
+                top: 15%;
+            }
+
+            50% {
+                transform: rotate(0deg);
+                top: 15%;
+            }
+
+            100% {
+                transform: rotate(90deg);
+                top: 15%;
+            }
+        }
+
+        .flex-about-home {
+            opacity: 0;
+        }
+
+        @media screen and (min-width: 768px) {
+            .flex-about-home {
+                animation: aboutFlexSlide 3s 1;
+                animation-delay: 0s;
+            }
+        }
+
+        @keyframes flexAboutHome {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .about {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(FundoL.jpg);
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        .contact-form {
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+        }
+
+        .contact {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(fund.webp);
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        .work {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(v.jpg);
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+    </style>
+    <!-- Botão Voltar -->
+    <a href="iniciodevdd.html" id="back-button">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </a>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const projetoSlide = document.querySelector('.flex-slide.home');
+        const projetoLink = projetoSlide.querySelector('a[href="projeto.html"]');
+
+        projetoLink.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Aplica a animação CSS
+            projetoSlide.classList.add('animate-out');
+
+            // Espera a animação terminar antes de redirecionar
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 600); // mesmo tempo da animação
+        });
+    });
+</script>
+
+</body>
+
+</html>

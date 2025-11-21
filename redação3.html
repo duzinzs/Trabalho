@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redação</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: url('abc.jpg') no-repeat center center/cover;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass {
+            width: 100%;
+            max-width: 900px;
+            padding: 45px;
+            border-radius: 25px;
+
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.25),
+                inset 0 0 40px rgba(255, 255, 255, 0.18);
+
+            animation: fadeIn .8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #222;
+            font-size: 2.3rem;
+            letter-spacing: 1px;
+        }
+
+        .texto {
+            color: #111;
+            font-size: 1.2rem;
+            line-height: 1.85rem;
+            white-space: pre-wrap;
+        }
+
+        .btn-voltar {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+
+            padding: 12px 22px;
+            font-size: 1rem;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 12px;
+
+            backdrop-filter: blur(10px);
+
+            text-decoration: none;
+            transition: .25s;
+        }
+
+        .btn-voltar:hover {
+            background: rgba(255,255,255,0.35);
+            color: #000;
+            transform: scale(1.05);
+        }
+
+        /* MICROFONE */
+        .mic-btn {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+
+            background: rgba(0, 0, 0, 0.55);
+            color: white;
+            padding: 15px 18px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+
+            transition: 0.2s;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.12);
+            background: rgba(255, 255, 255, 0.7);
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="Redações.html" class="btn-voltar">⬅ Voltar</a>
+
+    <div class="glass">
+        <h1>Sua Redação</h1>
+
+        <div id="texto" class="texto">
+A qualidade de vida e o bem-estar da população são influenciados por múltiplos fatores que vão além da renda e do acesso a bens materiais. Aspectos como saúde, educação, segurança e lazer desempenham papel essencial na construção de uma vida plena. Dessa forma, investir em políticas públicas que garantam serviços básicos de qualidade é fundamental para reduzir desigualdades sociais e promover um desenvolvimento mais equilibrado.
+
+No entanto, observa-se que muitas comunidades enfrentam dificuldades para acessar direitos básicos, como atendimento médico adequado, escolas estruturadas e transporte eficiente. Além disso, questões ambientais, como a poluição e a falta de áreas verdes, também impactam negativamente a saúde física e mental da população. A desigualdade econômica intensifica essas fragilidades, restringindo o bem-estar principalmente das camadas mais vulneráveis da sociedade.
+
+Portanto, é imprescindível que governos e sociedade civil atuem de forma integrada para garantir condições dignas de vida. Investir em infraestrutura, saúde preventiva, educação inclusiva e sustentabilidade ambiental são caminhos para promover o bem-estar coletivo. Afinal, qualidade de vida não significa apenas sobreviver, mas ter a oportunidade de viver com dignidade, equilíbrio e esperança de futuro.
+        </div>
+    </div>
+
+    <!-- BOTÃO DE MICROFONE -->
+    <div class="mic-btn" onclick="lerTexto()">🎤</div>
+
+    <script>
+        function lerTexto() {
+            const texto = document.getElementById("texto").innerText;
+
+            const fala = new SpeechSynthesisUtterance(texto);
+            fala.lang = "pt-BR";
+            fala.rate = 1; // velocidade normal
+
+            window.speechSynthesis.cancel(); // para evitar sobreposição
+            window.speechSynthesis.speak(fala);
+        }
+    </script>
+
+</body>
+</html>

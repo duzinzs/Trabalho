@@ -1,0 +1,243 @@
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: url('abc.jpg') no-repeat center center fixed;
+background-size: cover;
+
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Center container */
+.container__center {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+/* Botão de Modo Escuro */
+#toggle-dark-mode {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  padding: 10px 20px;
+  background-color: #222;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+/* Overlay para transição com faixa */
+#transition-overlay {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  z-index: 9999;
+  pointer-events: none;
+  transition: left 0.6s ease;
+}
+
+/* Ativando a animação */
+#transition-overlay.animate {
+  left: 0;
+}
+
+body {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Transição com faixa passando */
+#transition-overlay {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #111;
+  z-index: 9999;
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+#transition-overlay.animate {
+  left: 0;
+}
+
+/* Tema escuro */
+body.dark-mode {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              url('abc.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+}
+
+#toggle-dark-mode:hover {
+  background-color: #444;
+}
+
+/* Modo escuro ativado */
+body.dark-mode {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+              url('abc.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+
+/* Section Styling */
+.section__slider {
+  position: relative;
+  padding: 4rem 0;
+}
+
+/* Swiper Slide Styles */
+.swiper-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.swiper-slide__block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.swiper-slide__block__img img {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 12px;
+  transition: transform 1s ease;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.swiper-slide__block__img:hover img {
+  transform: scale(1.03);
+}
+
+.main__title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1.2;
+  color: #000000; /* ajustado para contraste */
+}
+
+.main__title span {
+  color: #007BFF;
+}
+
+.main__subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000000; /* ajustado para contraste */
+  margin-top: 0.5rem;
+}
+
+.paragraphe {
+  font-size: 1rem;
+  color: #000000;
+  max-width: 600px;
+  margin: 1rem auto;
+  line-height: 1.6;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: #0056b3;
+}
+
+/* Slide number */
+.number {
+  font-size: 4rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  pointer-events: none;
+}
+#back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 10000;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#back-button:hover {
+  background-color: #0056b3;
+}
+
+/* Swiper Navigation */
+.swiper-button-next {
+  right: 10px;
+  color: #007BFF;
+  font-size: 2rem;
+  z-index: 10;
+}
+
+.swiper-button-next::after {
+  display: none;
+}
+
+.swiper-button-prev {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main__title {
+    font-size: 2rem;
+  }
+
+  .main__subtitle {
+    font-size: 1rem;
+  }
+
+  .swiper-slide__block {
+    padding: 1rem;
+  }
+
+  .number {
+    font-size: 3rem;
+    bottom: 5%;
+    right: 5%;
+  }
+
+  .link {
+    padding: 0.6rem 1.2rem;
+  }
+}
